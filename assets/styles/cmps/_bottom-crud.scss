@@ -1,0 +1,85 @@
+.bottom-crud {
+    justify-content: space-between;
+    background-color: white;
+    padding-inline-end: 10px;
+    position: sticky;
+    // todo for small heights screens need mq on top prop
+    top: calc(86vh - 180px);
+    // bottom: 35px;
+    border-radius: 6px;
+    left: 50%;
+    width: 460px;
+    height: 63px;
+    transform: translateX(-50%);
+    z-index: 50;
+    box-shadow: 0px 15px 50px 0px rgba(0, 0, 0, 0.3);
+
+    >* {
+        height: 100%;
+    }
+
+    .sub1 {
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+
+        .selected-counter {
+            width: 44px;
+            color: white;
+            font-size: 30px;
+            font-weight: 100;
+            background-color: $primary-clr;
+            border-top-left-radius: inherit;
+            border-bottom-left-radius: inherit;
+        }
+
+        .items-text {
+            padding-inline-start: 20px;
+            color: #323338;
+            font-size: 20px;
+            font-weight: 100;
+            opacity: .6;
+        }
+    }
+
+    .sub2 {
+        button {
+            font-size: 12px;
+            color: #323338;
+            margin-inline-end: 20px;
+        }
+
+        .svg {
+            &:hover {
+                svg {
+                    fill: $primary-clr;
+                }
+            }
+        }
+
+        .close {
+            cursor: pointer;
+            padding-inline-start: 6px;
+            border-left: 2px solid $primary-border-clr;
+        }
+    }
+}
+// MQ
+// 
+@media (max-width:700px){
+    .bottom-crud {
+        width: fit-content;
+        justify-content: end;
+        left: 16px;
+        transform: translateX(0);
+        top: calc(83vh - 180px);
+        .sub1{
+
+            .items-text {
+                padding-inline-start: 10px;
+                margin-inline-end: 10px;
+                font-size: 16px;
+            }
+        }
+
+    }
+}

@@ -1,0 +1,76 @@
+.side-nav {
+    background-color: $bg-small-sidebar;
+    color: white;
+    grid-area: side-nav;
+    padding-top: 7px;
+    position: relative;
+    width: 66px;
+    .monday-icon-wrapper {
+        border-bottom: 1px solid #757575;
+        margin-bottom: 10px;
+    }
+    .monday-icon {
+        height: 46px;
+        width: 50px;
+        border-radius: 6px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgba(0, 0, 0, .6);
+        }
+        img {
+            width: 40px;
+            height: 40px;
+        }
+        &.active {
+            border-radius: 6px;
+            background-color: #545970;
+        }
+    }
+    .work-management {
+        width: 42px;
+        height: 42px;
+        border-radius: 6px;
+        // cursor: pointer;
+        margin-bottom: 6px;
+        // &:hover {
+        //     background-color: rgba(0, 0, 0, .6);
+        // }
+    }
+    .icons-pattern1 {
+        margin-bottom: auto;
+    }
+    .icons-pattern2 {
+        width: 50px;
+        border-bottom: 1px solid #757575;
+        padding-bottom: 1px;
+    }
+    .icon-wrapper {
+        display: flex;
+        justify-content: center;
+        width: em(36px);
+        height: em(36px);
+        border-radius: 6px;
+        margin-bottom: 8px;
+    }
+    .bottom-icons {
+        margin-bottom: 12px;
+        .member-wrapper {
+            padding: 6px;
+            padding-top: 10px;
+            .member-preview {
+                margin-inline-start: 0px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+    .bottom-icon-wrapper {
+        padding-top: 1px;
+        padding-bottom: 2px;
+        width: em(42px);
+        height: em(42px);
+        border-radius: 6px;
+        margin-top: 8px;
+        margin-bottom: 3px;
+    }
+}
