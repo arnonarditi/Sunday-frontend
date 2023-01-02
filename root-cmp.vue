@@ -1,0 +1,28 @@
+<template>
+  <section>
+    <user-msg />
+
+    <router-view />
+  </section>
+</template>
+
+<script>
+
+import userMsg from './cmps/user-msg.vue'
+import homePage from './views/home-page.vue'
+import loginSignup from './views/login-signup.vue'
+
+export default {
+
+  async created() {
+    this.$store.dispatch({ type: 'loadBoards' })
+    this.$store.dispatch({ type: 'loadUsers' })
+
+  },
+  components: {
+    userMsg,
+    homePage,
+    loginSignup
+  },
+}
+</script>
