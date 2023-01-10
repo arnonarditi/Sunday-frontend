@@ -11,7 +11,7 @@ export const boardService = {
     query,
     getBoardById,
     save,
-    remove,
+    removeBoard,
     getEmptyBoard,
     addBoardMsg,
     updateBoard,
@@ -23,7 +23,6 @@ export const boardService = {
     addGroup,
     filterCurrBoard,
     addBoard
-    // updateDraggedGroup
 }
 window.cs = boardService
 
@@ -33,7 +32,6 @@ async function query() {
 
 async function getBoardById(boardId) {
     try {
-        // todo verify its need to be asynchron
         const board = await httpService.get(`board/${boardId}`)
         return board
 
@@ -42,8 +40,13 @@ async function getBoardById(boardId) {
     }
 }
 
-async function remove(boardId) {
-    await storageService.remove(STORAGE_KEY, boardId)
+async function removeBoard(boardId) {
+    try {
+        const boardIdServer = await httpService.delete(`board/${boardId}`)
+        return boardIdServer
+    } catch (err) {
+        throw new Error('loadBoards')
+    }
 }
 
 async function save(board) {
@@ -54,11 +57,7 @@ async function save(board) {
             socketService.emit(SOCKET_EMIT_LOAD_CURRBOARD, board._id)
             return
         }
-        // Note- meanwhile we didnt produce a new board
-        // yaronb: Later, owner is set by the backend
-        // board.owner = userService.getLoggedinUser()
         else {
-            // savedBoard = await storageService.post(STORAGE_KEY, board)
             return httpService.post('board', board)
         }
     } catch (err) {
@@ -67,7 +66,7 @@ async function save(board) {
 }
 
 async function addBoardMsg(boardId, txt) {
-    //yaronb: Later, this is all done by the backend
+
     const board = await getBoardById(boardId)
     if (!board.msgs) board.msgs = []
 
@@ -82,26 +81,6 @@ async function addBoardMsg(boardId, txt) {
     return msg
 }
 
-// async function updateBoard(boardId, groupId, taskId, prop, toUpdate) {
-//     try {
-//         var currBoard = await getBoardById(boardId)
-//         if (taskId) {
-//             const groupIdx = currBoard.groups.findIndex(group => group.id === groupId)
-//             const taskIdx = currBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
-//             currBoard.groups[groupIdx].tasks[taskIdx][prop] = toUpdate
-//         } else if (groupId) {
-//             const groupIdx = currBoard.groups.findIndex(group => group.id === groupId)
-//             currBoard.groups[groupIdx][prop] = toUpdate
-//         } else {
-//             currBoard[prop] = toUpdate
-//         }
-//         save(currBoard)
-//         return currBoard
-
-//     } catch (err) {
-//         throw new Error('loadBoards')
-//     }
-// }
 function updateBoard(currBoard, groupId, taskId, prop, toUpdate) {
     var updatedBoard = JSON.parse(JSON.stringify(currBoard))
 
@@ -144,29 +123,29 @@ function _getEmptyBoard() {
             "fullname": "Tal Liber",
             "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/m99ikqcqjcuw75m4z8sl.jpg"
         },
-        // Note-12.12 data structure changed by arnon
+        // Note-12.12 data structure changed 
         // the default members need to be with the same id as DB!! 
         members: [
             {
-                "id" : "63973b2d1eaf6788972f5104",
-                "username" : "Tal",
-                "password" : "$2b$10$RaTK7ZunP1dOcFI/SdkmVerwxTbnfgtS/SUg7uNC5BwAocIU7EPPO",
-                "fullname" : "Tal Liber",
-                "imgUrl" : "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670851717/fhp5jlfirtsbzkl4mqyt.jpg",
-                "color" : "#8338ec"
+                "id": "63973b2d1eaf6788972f5104",
+                "username": "Tal",
+                "password": "$2b$10$RaTK7ZunP1dOcFI/SdkmVerwxTbnfgtS/SUg7uNC5BwAocIU7EPPO",
+                "fullname": "Tal Liber",
+                "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670851717/fhp5jlfirtsbzkl4mqyt.jpg",
+                "color": "#8338ec"
             },
             {
-                "id" : "63973b451eaf6788972f5105",
-                "username" : "Arnon",
-                "password" : "$2b$10$RpqYeY4kH6wuiUWf5vsBGu7ck01GwaZpXHBWSWgvsQ6N8mZrX7Xdi",
-                "fullname" : "Arnon Arditi",
-                "imgUrl" : "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/ggfq1eh886iohap9nmmd.jpg",
-                "color" : "#8338ec"
+                "id": "63973b451eaf6788972f5105",
+                "username": "Arnon",
+                "password": "$2b$10$RpqYeY4kH6wuiUWf5vsBGu7ck01GwaZpXHBWSWgvsQ6N8mZrX7Xdi",
+                "fullname": "Arnon Arditi",
+                "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/ggfq1eh886iohap9nmmd.jpg",
+                "color": "#8338ec"
             },
             {
-                "id":"63982ecba46074d44e318b8a",
+                "id": "63982ecba46074d44e318b8a",
                 "fullname": "Boaz Deri",
-                "username":"Boaz",
+                "username": "Boaz",
                 "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188872/v24ixm31xhncmyyjkqpx.jpg",
                 "color": "#3a86ff"
             }
@@ -176,6 +155,8 @@ function _getEmptyBoard() {
     }
 }
 
+// the optimistic approach - update sychronous and if fail its go back to the 
+// loadboards with the prv state from backend(just fail to update the board)
 async function addNewTask({ boardId, groupId, taskTitle, status }) {
     try {
         var currBoard = await getBoardById(boardId)
@@ -184,9 +165,10 @@ async function addNewTask({ boardId, groupId, taskTitle, status }) {
         if (status) {
             newTask.status = status
         }
-        currBoard.groups[groupIdx].tasks.push(newTask)  
+        currBoard.groups[groupIdx].tasks.push(newTask)
         // note keep it synchronous and in failure 
         // the loadBoards dispatch will action
+
         save(currBoard)
         return currBoard
 
@@ -366,132 +348,5 @@ function getEmptyBoard() {
     }
 }
 
-// // TEST DATA
 
-// ;
-// (async() => {
-//     await storageService.post(STORAGE_KEY, {
-//         "_id": "b101",
-//         "title": "Sprint4 - Project Mgmt",
-//         "description": "This board will be used for collaboration management on the Funday app project",
-//         "createdAt": 1589983468418,
-//         "cmpOrder": ["status", "members", "priority", "date", "textNote", "file", "timeline"],
-//         "labels": ["Status", "Person", "Priority", "Date", "Text", "File", "Timeline"],
-//         "progLineOrder": ["status-progress", "div", "priority-progress", "div", "div", "div", "timeline-width"],
-//         "createdBy": {
-//             "id": "u101",
-//             "fullname": "Tal Liber",
-//             "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/m99ikqcqjcuw75m4z8sl.jpg"
-//         },
-//         "members": [{
-//                 "id": "u101",
-//                 "fullname": "Tal Liber",
-//                 "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/m99ikqcqjcuw75m4z8sl.jpg",
-//                 "color": "#8338ec"
-//             },
-//             {
-//                 "id": "u102",
-//                 "fullname": "Arnon Arditi",
-//                 "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/ggfq1eh886iohap9nmmd.jpg",
-//                 "color": "#8338ec"
-//             },
-//             {
-//                 "id": "u103",
-//                 "fullname": "Boaz Deri",
-//                 "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188872/v24ixm31xhncmyyjkqpx.jpg",
-//                 "color": "#3a86ff"
-//             },
-//             {
-//                 "id": "u104",
-//                 "fullname": "Tal Amit",
-//                 "color": "#ff006e"
-//             }
-//         ],
-//         "activities": [{
-//             "id": "a101",
-//             "txt": "Changed Color",
-//             "createdAt": 154514,
-//             "byMember": {
-//                 "id": "u101",
-//                 "fullname": "Tal Liber",
-//                 "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/m99ikqcqjcuw75m4z8sl.jpg"
-//             },
-//             "task": {
-//                 "id": "c101",
-//                 "title": "Replace Logo"
-//             }
-//         }],
-//         "groups": [{
-//             "id": "gy5LnM",
-//             "title": "Frontend",
-//             "color": "#579bfc",
-//             "tasks": [{
-//                     "id": "t2yn4E",
-//                     "taskTitle": "without comments",
-//                     "status": "Working",
-//                     "members": [{
-//                             "id": "u101",
-//                             "fullname": "Tal Liber",
-//                             "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/m99ikqcqjcuw75m4z8sl.jpg",
-//                             "color": "#8338ec"
-//                         },
-//                         {
-//                             "id": "u102",
-//                             "fullname": "Arnon Arditi",
-//                             "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/ggfq1eh886iohap9nmmd.jpg",
-//                             "color": "#3a86ff"
-//                         }
-//                     ],
-//                     "date": "2022-03-28T21:00:00.000Z",
-//                     "priority": "HIGH",
-//                     "textNote": "",
-//                     "comments": []
-//                 },
-//                 {
-//                     "id": "t2yvg",
-//                     "taskTitle": "With comments",
-//                     "status": "Done",
-//                     "members": [{
-//                             "id": "u101",
-//                             "fullname": "Tal Liber",
-//                             "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/m99ikqcqjcuw75m4z8sl.jpg",
-//                             "color": "#8338ec"
-//                         },
-//                         {
-//                             "id": "u102",
-//                             "fullname": "Arnon Arditi",
-//                             "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/ggfq1eh886iohap9nmmd.jpg",
-//                             "color": "#3a86ff"
-//                         }
-//                     ],
-//                     "date": "2022-03-28T21:00:00.000Z",
-//                     "priority": "LOW",
-//                     "textNote": "sass is good",
-//                     "comments": [{
-//                             "id": "ZdPnm",
-//                             "txt": "also @yaronb please CR this",
-//                             "createdAt": 1590999817436,
-//                             "byMember": {
-//                                 "_id": "u101",
-//                                 "fullname": "Tal Liber",
-//                                 "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/m99ikqcqjcuw75m4z8sl.jpg",
-//                                 "color": "#8338ec"
-//                             }
-//                         },
-//                         {
-//                             "id": "ZdPfd",
-//                             "txt": "Baba and didi go to the yam",
-//                             "createdAt": 1590999212436,
-//                             "byMember": {
-//                                 "id": "u102",
-//                                 "fullname": "Arnon Arditi",
-//                                 "imgUrl": "https://res.cloudinary.com/boaz-sunday-proj/image/upload/v1670188871/ggfq1eh886iohap9nmmd.jpg",
-//                                 "color": "#8338ec"
-//                             }
-//                         }
-//                     ]
-//                 }
-//             ]
-//         }]
-//     })
-// })()
+

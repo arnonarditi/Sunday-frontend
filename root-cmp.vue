@@ -17,7 +17,11 @@ export default {
   async created() {
     this.$store.dispatch({ type: 'loadBoards' })
     this.$store.dispatch({ type: 'loadUsers' })
-
+    
+    this.$store.dispatch({
+      type: 'login',
+      userCred: { username: 'Guest', password: '123' }
+    })
   },
   components: {
     userMsg,
