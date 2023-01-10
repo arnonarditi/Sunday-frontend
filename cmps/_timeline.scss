@@ -1,0 +1,63 @@
+.cell1.timeline-container {
+    // left: 78px;
+    text-align: center;
+    line-height: 22px;
+    width: 140px;
+    position: relative;
+}
+
+// .wide-cell {
+//     // width: 187px;
+//     position: relative;
+// }
+
+.timeline-btn {
+    position: relative;
+    width: 100%;
+    max-height: 22px;
+    margin: 0 15px;
+    border-radius: 15px;
+    background-color: #c3c4c3;
+    font-size: 13px;
+    color: #fff !important;
+}
+
+.timeline-input {
+    position: absolute;
+    right: 0px;
+    min-width: 148px;
+    max-height: 22px;
+    border-radius: 15px;
+    background-color: #c3c4c3;
+    color: #fff !important;
+    opacity: 0;
+    z-index: 2;
+}
+
+.after-set-date {
+    padding: 0 8px;
+}
+
+.el-popper.is-pure.is-light.el-picker__popper {
+    top: 600px;
+}
+
+#el-popper-container-6352 {
+    top: 600px !important;
+    inset: 0 !important;
+}
+
+.el-range-input {
+    cursor: pointer;
+}
+
+@media(max-width:500px){
+    .cell1.timeline-container {
+        width: 120px;
+        .timeline-btn{
+            // width: 110px;
+            margin: 0 8px;
+        }
+
+    }
+}

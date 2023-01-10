@@ -1,0 +1,118 @@
+// TASK SECTION
+// for all the dynamic content
+// helper for hover
+.task-row {
+    >* {
+        cursor: pointer;
+    }
+    .more {
+        left: 0px;
+        span {
+            opacity: 0;
+        }
+    }
+
+    &:hover {
+        >*:not(:first-child) {
+            background-color: $table-hover-clr;
+            >*:only-child {
+                opacity: 0.8;
+            }
+        }
+        .more {
+            cursor: default;
+            span {
+                opacity: 1;
+            }
+        }
+        .open-con {
+            opacity: 1;
+        }
+    }
+}
+
+.task-row.active-row{
+    >*:not(:first-child){
+        background-color:  $bg-big-sidebar-active;
+        >*:only-child {
+            opacity: 1;
+        }
+    }
+}
+
+// main content-border
+.task-border {
+    left: 40px;
+    background-color: $primary-clr;
+    &.add-task {
+        opacity: 0.5;
+        background: rgb(87, 155, 252);
+    }
+}
+
+// side cmp
+.side {
+    left: 46px;
+    border-bottom: 1px solid $primary-border-clr;
+    border-right: 1px solid $primary-border-clr;
+}
+
+// add-task sec
+.add-task {
+    .input-wrapper {
+        border-bottom: 1px solid $primary-border-clr;
+        border-inline-end: 0;
+        padding: 6px 10px;
+        input {
+            padding: 4px 3px;
+            padding-inline-start: 17px;
+            border-radius: 4px;
+            width: 100%;
+            border: 0;
+            &:focus-within {
+                outline: 1px solid $primary-clr;
+                border: 0;
+            }
+        }
+    }
+}
+
+.box-card {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 184px;
+    height: fit-content;
+    z-index: 51;
+}
+
+.task-text {
+    cursor: text;
+    height: 24px;
+    width: 100%;
+    line-height: 24px;
+    margin: 0 6px;
+    &:hover {
+        border: 1px solid $primary-border-clr;
+        padding: 0 2px;
+    }
+}
+
+.ghost {
+    opacity: 0.5;
+    background: grey;
+}
+
+.is-move {
+    border: 1px dotted $primary-border-clr;
+}
+
+.checkbox {
+    width: 14px;
+    height: 16px;
+}
+
+.el-card.is-always-shadow {
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 32%);
+    border-radius: 8px;
+}

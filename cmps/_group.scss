@@ -1,0 +1,209 @@
+.board-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.group-container {
+    width: 1280px;
+    margin-bottom: 20px;
+    position: relative;
+    .group-content {
+        .labels-grid {
+            >*:not(:first-child) {
+                border-top: 1px solid $primary-border-clr;
+            }
+        }
+    }
+}
+
+
+.collapse-container{
+    width: 1280px;
+    position: relative;
+}
+
+.main-table {
+    position: relative;
+    height: 100%;
+    overflow-x: scroll;
+}
+
+.group-list {
+    position: absolute;
+    width: 100%;
+}
+
+//GROUP-GRID important
+.group-grid {
+    display: grid;
+    grid-template-columns: 40px 6px 32px 364px repeat(7, 140px);
+    // todo verify that its warking fine
+    // grid-template-columns: 40px 6px 32px 364px repeat(7, minmax(140px,187px));
+    grid-template-rows: rem(36px);
+    grid-auto-flow: column;
+    >* {
+        background-color: white;
+    }
+    .first {
+        left: 0;
+    }
+    .second {
+        left: 40px;
+    }
+    .third {
+        left: 46px;
+        &.empty {
+            border-top: 1px solid $primary-border-clr;
+        }
+    }
+    .forth {
+        left: 78px;
+        &.empty {
+            border-top: 1px solid $primary-border-clr;
+        }
+    }
+    &.labels-grid {
+        grid-template-columns: 40px 6px 32px 364px 980px;
+    }
+}
+
+// Progress-grid
+.progress-grid {
+    margin-top: -1px;
+    >*:not(:first-child, .empty) {
+        border-top: 1px solid $primary-border-clr;
+    }
+    // status cell
+    >*:nth-child(5) {
+        border-left: 1px solid $primary-border-clr;
+        border-bottom-left-radius: 6px;
+    }
+}
+
+// CELL-SECTION
+.cell1,
+.cell2 {
+    border-bottom: 1px solid $primary-border-clr;
+    border-right: 1px solid $primary-border-clr;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+}
+
+.cell1 {
+    font-size: em(14px);
+}
+
+.label {
+    width: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -1px;
+}
+
+//NOTE--- try not use that class
+.cell {
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid $primary-border-clr;
+    border-right: 1px solid $primary-border-clr;
+    font-size: em(14px);
+    position: relative;
+    >* {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        >* {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+.on-drag {
+    border: 1px dotted $primary-border-clr;
+    cursor: move;
+}
+
+.new-group-btn {
+    position: sticky;
+    left: 40px;
+    border: 1px solid $primary-border-clr;
+    border-radius: 5px;
+    padding: 4px 10px;
+    padding-inline-start: 3px;
+    margin-bottom: 20px;
+    width: fit-content;
+}
+
+// DRAG AND DROP
+.smooth-dnd-container {
+    min-height: 0px;
+    &.vertical {
+        &> {
+            .smooth-dnd-draggable-wrapper {
+                overflow: unset !important;
+            }
+        }
+    }
+}
+
+.on-drag {
+    background-color: $primary-hover-clr;
+    color: $primary-clr;
+    transform: rotate(1deg);
+    cursor: grab;
+    // transform: scale(1.1);
+}
+
+.drop-placeholder {
+    background-color: white;
+    border: 2px dotted $primary-border-clr;
+}
+
+.smooth-dnd-container.horizontal {
+    display: flex !important;
+}
+
+.labels-grid {
+    .smooth-dnd-container.horizontal>.smooth-dnd-draggable-wrapper {
+        display: flex;
+        height: unset !important;
+    }
+}
+
+.label-drag {
+    background-color: black;
+    height: 150px;
+    transform: rotate(20deg);
+}
+
+input[type="checkbox"] {
+    accent-color: $primary-clr;
+}
+
+@media(max-width:500px){
+    .group-container{
+        margin-bottom: 40px;
+    }
+
+    .group-grid {
+        grid-template-columns: 40px 6px 32px 230px repeat(7, 120px);
+        grid-template-rows: rem(46px);
+        &.labels-grid {
+            grid-template-columns: 40px 6px 32px 230px 840px;
+        }
+
+    }
+
+}

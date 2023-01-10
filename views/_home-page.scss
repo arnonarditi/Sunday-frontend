@@ -1,0 +1,300 @@
+@import "./stars-home-page";
+
+.home-page {
+    position: relative;
+    height: 100vh;
+    font-family: Roboto;
+    overflow-y: scroll;
+
+    .home-page-header {
+        height: 70px;
+        font-size: 1.5rem;
+        font-family: 'Roboto-bold';
+        font-weight: 600;
+        color: #333333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 65px;
+    }
+    .login-section{
+        justify-content: space-between;
+    }
+    .login-btn{
+        padding: 8px 10px;
+        border-radius: 4px;
+
+        &:hover{
+            color: #5034FF;
+            background-color: #F0F3FF;
+        }
+    }
+
+    .logo-suffix {
+        position: absolute;
+        font-size: 0.5em;
+        font-family: 'Poppins-light';
+        font-weight: 700;
+        left: 183px;
+        top: 4px;
+    }
+
+    .header-img {
+        width: 40px;
+        margin: auto 0;
+        line-height: 20px;
+    }
+
+    .header-logo {
+        line-height: 70px;
+    }
+
+    .first-layout {
+        flex: 1;
+        min-height: 600px;
+        width: 100%;
+        padding: 20px;
+        padding-top: 62px;
+        background: linear-gradient(rgb(0, 1, 51) 0%, rgb(15, 16, 72) 100%);
+    }
+
+    .header-line {
+        display: block;
+        text-align: center;
+        // todo make it work after word
+        color: #fff;
+        padding-bottom: 12px;
+        font-weight: 400;
+        font-size: 70px;
+        line-height: 74px;
+        padding-top: 10px;
+    }
+
+    .first-homepage-line {
+        background: -webkit-linear-gradient(#c2c2d2, #fff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .sub-line {
+        font-size: 24px;
+        line-height: 35px;
+        margin-top: 20px;
+        text-align: center;
+        color: #fff;
+    }
+    .comet-underline {
+        transform: rotate(0);
+        width: 125px;
+        margin-right: 120px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #fff);
+    }
+
+    .start-btn {
+        background: linear-gradient(90deg, #5034FF 25.69%, #B4B4FF 100%);
+        border-radius: 30px;
+        color: #ffffff;
+        padding-left: 31px;
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        font-family: 'Poppins-light';
+        font-weight: 400;
+        height: 50px;
+        width: 175px;
+        margin-top: 44px;
+
+        .see-demo-arrow {
+            margin-top: 6px;
+            padding-left: 8px;
+        }
+
+        &:hover {
+            background: linear-gradient(90deg, #432cd5 25.69%, #9797d5 100%);
+
+            .see-demo-arrow {
+                padding-left: 16px;
+                transition: padding .5s;
+            }
+        }
+    }
+
+    .home-img {
+        background-image: url(https://taskndrop-drko.onrender.com/dist/home-page.4b79e61c.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: top;
+    }
+    .bottom-homepage-img {
+        border-radius: 6px;
+        padding: 10px;
+        margin: 10px 0;
+        box-shadow: 0px 0px 2px 1px #d0d0d0;
+    }
+    
+    .center-home-img {
+        object-fit:cover;
+        position: absolute;
+        background-color: #ffffff;
+        z-index: 20;
+        min-width: 35%;
+        max-width: 45%;
+        aspect-ratio: 16 / 10;
+        max-height: 35%;
+        left: 50%;
+        bottom: 10px;
+        transform: translate(-50%);
+        overflow-y: hidden;
+    }
+
+    .small-home-img {
+        width: 30%;
+        max-width: 35%;
+        margin: 10px;
+        opacity: .7;
+    }
+
+    @keyframes twinkle {
+        0% {
+            transform: scale(0.3);
+            opacity: 0.5;
+        }
+    }
+
+}
+
+// MQ
+// 
+@media (max-width:800px){
+    .home-page{
+        .home-page-header{
+            margin: 0 20px;
+        }
+
+        .logo-suffix{
+            left: 139px;
+        }
+    }
+}
+@media (max-width:670px){
+    .home-page{
+        .header-line{
+            font-size: 50px;
+            line-height: 54px;
+        }
+    }
+}
+
+@media (max-width:430px){
+    .home-page{
+        .sub-line{
+            font-size: 22px;
+            line-height: 28px;
+        }
+    }
+}
+
+@media (max-width:380px){
+    .home-page{
+        .header-line{
+            font-size: 40px;
+            line-height: 44px;
+        }
+        .logo-suffix {
+            display: none;
+        }
+    }
+}
+
+@media (max-width:500px){
+    .home-page{
+        .header-line{
+            font-size: 30px;
+            line-height: 34px;
+        }
+        .center-home-img{
+            max-height: 35vh;
+            min-width: 85vw;
+            aspect-ratio: 4 / 4;
+        }
+        .carousel-img{
+            height: 35vh;
+            width: 85vw;
+        }
+    }
+}
+
+@media (max-width:300px){
+    .home-page{
+        .header-line{
+            font-size: 26px;
+            line-height: 28px;
+        }
+        .logo-suffix {
+            display: none;
+        }
+    }
+}
+
+// for big screens
+@media (min-width:1500px) and (min-height:1000px){
+    .home-page{
+        .header-line{
+            font-size: 90px;
+            line-height: 94px;
+        }
+        .center-home-img {
+            object-fit:fill;
+            // position: absolute;
+            background-color: #ffffff;
+            z-index: 20;
+            min-width: 35%;
+            max-width: 45%;
+            aspect-ratio: 16 / 10;
+            left: 50%;
+            bottom: 10px;
+            transform: translate(-50%);
+            padding: 20px;
+        
+        }
+        .carousel-img{
+            object-fit:cover;
+            height: fit-content;
+            
+        }
+        .el-carousel__container{
+            height: 100%;            
+        }
+        .el-carousel__item{
+            overflow: visible;
+            height: max-content;
+        }
+    }
+}
+
+// for wide and short screens
+@media (max-height:750px) and (min-width: 1000px){
+    .home-page{
+        .header-line{
+            font-size: 48px;
+            line-height: 50px;
+        }
+        .first-layout{
+            padding-top: 36px;
+        }
+        .sub-line {
+            font-size: 20px;
+            line-height: 28px;
+            margin-top: 14px;
+        }
+        .start-btn{
+            margin-top: 34px;
+        }
+        .center-home-img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
